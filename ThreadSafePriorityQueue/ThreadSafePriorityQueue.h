@@ -33,9 +33,9 @@ typedef enum QUEUE_RETURN_VALUES
 }QUEUE_RETURN_VALUES;
 
 
-int initQueue(void);
-int addToQueue(const QUEUE_CONTAINER_TYPE *item, QUEUE_PRIORITIES priority);
-//int size();
+uint8_t initQueue(void);
+uint8_t addToQueue(const QUEUE_CONTAINER_TYPE *item, QUEUE_PRIORITIES priority);
+uint8_t itemsInQueue();
 //void *popQueue();
 
 #endif

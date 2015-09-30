@@ -6,7 +6,7 @@ static QUEUE_ELEMENT queue[QUEUE_SIZE];
 static uint8_t firstElementIndex = 0;
 static uint8_t currentNumberOfElements = 0;
 
-int initQueue(void)
+uint8_t initQueue(void)
 {
   uint16_t i;
   uint8_t numberOfBytes = sizeof(QUEUE_ELEMENT) + QUEUE_SIZE;
@@ -24,7 +24,7 @@ int initQueue(void)
   return SUCCESS;
 }
 
-int addToQueue(const QUEUE_CONTAINER_TYPE *item, QUEUE_PRIORITIES priority)
+uint8_t addToQueue(const QUEUE_CONTAINER_TYPE *item, QUEUE_PRIORITIES priority)
 {
   //make sure queue isn't full
   if(currentNumberOfElements == QUEUE_SIZE)
@@ -45,5 +45,8 @@ int addToQueue(const QUEUE_CONTAINER_TYPE *item, QUEUE_PRIORITIES priority)
 
   return SUCCESS;
 }
-//int itemsInQueue();
+uint8_t itemsInQueue()
+{
+  return currentNumberOfElements;
+}
 //void *popQueue();
