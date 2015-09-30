@@ -49,4 +49,54 @@ uint8_t itemsInQueue()
 {
   return currentNumberOfElements;
 }
-//void *popQueue();
+
+uint8_t popQueue(QUEUE_CONTAINER_TYPE *returnedValue)
+{
+  if(itemsInQueue() == 0)
+  {
+    return QUEUE_EMPTY;
+  }
+
+  uint8_t iterator = firstElementIndex;
+  uint8_t indexOfHighestPriority = firstElementIndex;
+  uint8_t priorityOfHighest = queue[firstElementIndex].priority;
+
+  uint8_t i;
+
+
+  //search the the element with the highest priority
+  for(i = 0; i < currentNumberOfElements; i++)
+  {
+    if(queue[iterator].priority > priorityOfHighest)
+    {
+      priorityOfHighest = queue[iterator].priority;
+      indexOfHighestPriority = iterator;
+    }
+  }
+
+  *returnedValue = queue[indexOfHighestPriority].element;
+
+  //move everything up in the queue if an element in middle is gone
+  if(indexOfHighestPriority != firstElementIndex)
+  {
+    
+  }
+  else  //just remove the first index by adjusting the index
+  {
+    if(firstElementIndex == 0)
+    {
+      firstElementIndex = QUEUE_SIZE;
+    }
+    else
+    {
+      firstElementIndex--;
+    }
+  }
+
+  currentNumberOfElements--;
+
+  
+
+  return;
+}
+
