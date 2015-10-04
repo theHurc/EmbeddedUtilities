@@ -10,7 +10,7 @@
 #define ITEM_TYPE uint8_t
 
 #define THREAD_SAFE_BEGIN
-#define THERE_SAFE_END
+#define THREAD_SAFE_END
 //END: User defined MACROS
 
 

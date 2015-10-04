@@ -25,7 +25,7 @@ THREAD_SAFE_BEGIN
 
   LOGGER("Queue initialized.")
 
-THERE_SAFE_END
+THREAD_SAFE_END
 
   return SUCCESS;
 }
@@ -53,7 +53,7 @@ THREAD_SAFE_BEGIN
     result = SUCCESS;
   }
 
-THERE_SAFE_END
+THREAD_SAFE_END
 
   return result;
 }
@@ -81,7 +81,7 @@ THREAD_SAFE_BEGIN
     result = SUCCESS;
   }
 
-THERE_SAFE_END
+THREAD_SAFE_END
 
   return result;
 }
@@ -94,7 +94,7 @@ THREAD_SAFE_BEGIN
 
   size = thisBuffer->itemsInQueue;
 
-THERE_SAFE_END
+THREAD_SAFE_END
 
   return size;
 }
