@@ -3,13 +3,15 @@
 
 #include <stdint.h>
 
+//BEGIN: User defined MACROS
 #define LOGGER(x) printf(x);printf("\n");
-//TODO: add proper logger functionality
 
 #define MAX_ITEMS_IN_QUEUE 5
 #define ITEM_TYPE uint8_t
+
 #define THREAD_SAFE_BEGIN
 #define THERE_SAFE_END
+//END: User defined MACROS
 
 
 #define EMPTY 0
