@@ -1,3 +1,4 @@
+//Generic circular buffer
 #include <stdint.h>
 #include <stdio.h>
 
