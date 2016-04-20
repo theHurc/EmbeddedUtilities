@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+
 typedef struct tableEntry
 {
   uint16_t currentState;
@@ -31,32 +32,33 @@ const int TABLE_SIZE = (sizeof(stateTable)/sizeof(stateTable[0]));
 
 typedef struct stateMachine
 {
-  tableEntry stateTable[];
+  tableEntry *stateTable;
+  uint16_t tableSize;
   uint16_t currentState;
   void *contextData;
 }stateMachine;
 
-int stateMachineEngine(void *contextData)
+int stateMachineEngine(stateMachine *machine)
 {
-  static uint16_t currentState = 0;
+  //static uint16_t currentState = 0;
   uint16_t i, r;
 
-  printf("Current state: %d\n", currentState);
+  printf("Current state: %d\n", machine->currentState);
 
-  for(i = 0; i < TABLE_SIZE; i++)
+  for(i = 0; i < machine->tableSize; i++)
   {
-    if(stateTable[i].currentState == currentState)
+    if(machine->stateTable[i].currentState == machine->currentState)
     {
-      if(stateTable[i].triggerFunction(contextData))
+      if(machine->stateTable[i].triggerFunction(machine->contextData))
       {
-        stateTable[i].exitFunction(contextData);
-        currentState = stateTable[i].nextState;
+        machine->stateTable[i].exitFunction(machine->contextData);
+        machine->currentState = machine->stateTable[i].nextState;
 
-        for(r = 0; r < TABLE_SIZE; r++)
+        for(r = 0; r < machine->tableSize; r++)
         {
-          if(stateTable[r].currentState == currentState)
+          if(machine->stateTable[r].currentState == machine->currentState)
           {
-            stateTable[r].entryFunction(contextData);
+            machine->stateTable[r].entryFunction(machine->contextData);
             break;
           }
         }
@@ -74,9 +76,15 @@ int main()
 
   int i = 0;
 
+  stateMachine machine;
+
+  machine.stateTable = stateTable;
+  machine.tableSize = TABLE_SIZE;
+  machine.currentState = 0;
+
   for(i = 0; i < 10; i++)
   {
-    stateMachineEngine(&i);
+    stateMachineEngine(&machine);
   }
 
   return 0;
