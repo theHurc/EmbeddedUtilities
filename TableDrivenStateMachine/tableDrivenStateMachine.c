@@ -2,7 +2,7 @@
 
 #include "tableDrivenStateMachine.h"
 
-int stateMachineEngine(stateMachine *machine)
+int executeStateMachine(stateMachine *machine)
 {
   uint16_t i, r;
 

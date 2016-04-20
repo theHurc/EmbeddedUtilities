@@ -21,7 +21,6 @@ tableEntry stateTable[] =
 
 const int TABLE_SIZE = (sizeof(stateTable)/sizeof(stateTable[0]));
 
-
 int main()
 {
   printf("Top of main\n");
@@ -36,7 +35,7 @@ int main()
 
   for(i = 0; i < 10; i++)
   {
-    stateMachineEngine(&machine);
+    executeStateMachine(&machine);
   }
 
   return 0;

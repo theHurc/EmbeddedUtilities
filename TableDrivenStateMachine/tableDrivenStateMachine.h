@@ -21,6 +21,6 @@ typedef struct stateMachine
   void *contextData;
 }stateMachine;
 
-int stateMachineEngine(stateMachine *machine);
+int executeStateMachine(stateMachine *machine);
 
 #endif
