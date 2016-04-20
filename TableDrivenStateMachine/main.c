@@ -29,9 +29,7 @@ int main()
 
   stateMachine machine;
 
-  machine.stateTable = stateTable;
-  machine.tableSize = TABLE_SIZE;
-  machine.currentState = 0;
+  initMachine(&machine, stateTable, TABLE_SIZE, 0, NULL);
 
   for(i = 0; i < 10; i++)
   {

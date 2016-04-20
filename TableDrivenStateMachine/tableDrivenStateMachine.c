@@ -2,6 +2,18 @@
 
 #include "tableDrivenStateMachine.h"
 
+int initMachine(stateMachine *machine,
+                tableEntry *stateTable,
+                uint16_t tableSize,
+                uint16_t startState,
+                void *contextData )
+{
+  machine->stateTable = stateTable;
+  machine->tableSize = tableSize;
+  machine->currentState = startState;
+  machine->contextData = contextData;
+}
+
 int executeStateMachine(stateMachine *machine)
 {
   uint16_t i, r;

@@ -22,5 +22,10 @@ typedef struct stateMachine
 }stateMachine;
 
 int executeStateMachine(stateMachine *machine);
+int initMachine(stateMachine *machine,
+                tableEntry *stateTable,
+                uint16_t tableSize,
+                uint16_t startState,
+                void *contextData );
 
 #endif
