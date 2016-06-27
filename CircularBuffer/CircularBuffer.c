@@ -16,7 +16,7 @@ static uint8_t advanceIndex(uint8_t index, const uint8_t maxQueueSize)
   return index;
 }
 
-void resetQueue(const circularBuffer *thisBuffer)
+void resetQueue(circularBuffer * const thisBuffer)
 {
 THREAD_SAFE_BEGIN
 
@@ -31,7 +31,7 @@ THREAD_SAFE_END
   return;
 }
 
-RESULT addItem(const circularBuffer *thisBuffer, const void *item)
+RESULT addItem(circularBuffer * const thisBuffer, const void *item)
 {
   THREAD_SAFE_BEGIN
 
@@ -87,7 +87,7 @@ THREAD_SAFE_END
   return result;
 }
 
-RESULT popItem(const circularBuffer *thisBuffer, void *item)
+RESULT popItem( circularBuffer * const thisBuffer, void *item)
 {
 THREAD_SAFE_BEGIN
 
@@ -143,7 +143,7 @@ THREAD_SAFE_END
   return result;
 }
 
-uint8_t getItemsInQueue(const circularBuffer *thisBuffer)
+uint8_t getItemsInQueue(circularBuffer * const thisBuffer)
 {
   uint8_t size;
 

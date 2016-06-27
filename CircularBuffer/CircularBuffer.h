@@ -83,22 +83,22 @@ typedef enum RESULT
  * Soft resets the queue to empty. Does not clear the
  * the associated buffer memory to 0.
  */
-void resetQueue(const circularBuffer *thisBuffer);
+void resetQueue(circularBuffer * const thisBuffer);
 
 /*
  * Adds an item to the queue if there is an available space.
  */
-RESULT addItem(const circularBuffer *thisBuffer, const void *item);
+RESULT addItem(circularBuffer * const thisBuffer, const void *item);
 
 /*
  * Removes the oldest item from the queue and returns in
  * 'item'.
  */
-RESULT popItem(const circularBuffer *thisBuffer, void *item);
+RESULT popItem(circularBuffer * const thisBuffer, void *item);
 
 /*
  * Returns the number of items in queue.
  */
-uint8_t getItemsInQueue(const circularBuffer *thisBuffer);
+uint8_t getItemsInQueue(circularBuffer * const thisBuffer);
 
 #endif
