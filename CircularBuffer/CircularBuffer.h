@@ -3,40 +3,59 @@
 
 #include <stdint.h>
 
+//TODO: Remove to common
 //BEGIN: User defined MACROS
-#define LOGGER(x) printf(x);printf("\n");
-
-#define MAX_ITEMS_IN_QUEUE 5
-#define ITEM_TYPE uint8_t
+#define LOGGER(MESSAGE) printf(MESSAGE);printf("\n");
 
 #define THREAD_SAFE_BEGIN
 #define THREAD_SAFE_END
 //END: User defined MACROS
 
 
-#define EMPTY 0
+typedef struct circularBuffer
+{
+  const uint8_t maxQueueSize;
+
+  const uint8_t bytesPerElement;
+  uint8_t itemsInQueue;
+  uint8_t queueHeadIndex;
+  uint8_t queueTailIndex;
+
+  void const *buffer; //pointer to buffer
+}circularBuffer;
+
+//declares buffer structure
+#define declare_circular_buffer( BUFFER_NAME ) \
+circularBuffer BUFFER_NAME;
+
+//Allocates memory for buffer
+#define define_circular_buffer( BUFFER_NAME, ITEM_TYPE, NUMBER_OF_ELEMENTS ) \
+  ITEM_TYPE buffer_##BUFFER_NAME[NUMBER_OF_ELEMENTS]; \
+\
+  circularBuffer BUFFER_NAME = \
+  { \
+  .maxQueueSize = NUMBER_OF_ELEMENTS,  \
+  .bytesPerElement = sizeof(ITEM_TYPE), \
+  .itemsInQueue = 0, \
+  .queueHeadIndex = 0, \
+  .queueTailIndex = 0, \
+\
+  .buffer = &buffer_##BUFFER_NAME \
+  };
 
 typedef enum RESULT
 {
   SUCCESS = 0,
-  QUEUE_FULL = -1,
-  QUEUE_EMPTY = -2,
+  NULL_BUFFER_PTR = -1,
+  NULL_ITEM_PTR = -2,
+  QUEUE_FULL = -3,
+  QUEUE_EMPTY = -4,
 }RESULT;
 
-typedef struct CircularBuffer
-{
-  ITEM_TYPE queue[MAX_ITEMS_IN_QUEUE];
 
-  uint8_t itemsInQueue;
-  uint8_t queueHeadIndex; //points to next slot to fill
-  uint8_t queueTailIndex; //point to next slot to return
-
- }CircularBuffer;
-
-RESULT initQueue(CircularBuffer *thisBuffer);
-RESULT addItem(CircularBuffer *thisBuffer, const ITEM_TYPE *item);
-RESULT popItem(CircularBuffer *thisBuffer, ITEM_TYPE *item);
-uint8_t getQueueSize(CircularBuffer *thisBuffer);
-//RESULT peekItem(CircularBuffer *thisBuffer, ITEM_TYPE *item);
+void resetQueue(circularBuffer *thisBuffer);
+RESULT addItem(circularBuffer *thisBuffer, const void *item);
+RESULT popItem(circularBuffer *thisBuffer, void *item);
+uint8_t getItemsInQueue(circularBuffer *thisBuffer);
 
 #endif
