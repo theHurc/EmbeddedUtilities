@@ -11,7 +11,15 @@
 #define THREAD_SAFE_END
 //END: User defined MACROS
 
-
+/*
+ * Structure that holds all variables related to a circular buffer.
+ *
+ * The pointer to buffer is of void const * type so the buffer
+ * can be of generic type. Unfortunately, C doesn't provide a
+ * concept of private variables but this structure's internals
+ * shouldn't be touched by the client. The client should just pass
+ * a pointer to the buffer for buffer operations.
+ */
 typedef struct circularBuffer
 {
   const uint8_t maxQueueSize;
@@ -21,16 +29,32 @@ typedef struct circularBuffer
   uint8_t queueHeadIndex;
   uint8_t queueTailIndex;
 
-  void const *buffer; //pointer to buffer
+  void const *buffer; //pointer to the actual buffer
 }circularBuffer;
 
-//declares buffer structure
+/*
+ * Macro declaring buffer structure; Use in .h file make visable
+ * to other files.
+ *
+ * Volatile because this may be used between the main application
+ * and an interrupt.
+ */
 #define declare_circular_buffer( BUFFER_NAME ) \
-circularBuffer BUFFER_NAME;
+extern volatile circularBuffer BUFFER_NAME;
 
-//Allocates memory for buffer
+/*
+ * Macro that allocates and initializes memory for a buffer structure.
+ *
+ * BUFFER_NAME must be the same if using the above 'declare' macro.
+ * Volatile because this may be used between the main application
+ * and an interrupt.
+ *
+ * This maybe isn't obvious from the macro itself but this is actually
+ * initializing each variable in the struct so it must be outside
+ * any functions. (It's a compile time thing; not runtime.)
+ */
 #define define_circular_buffer( BUFFER_NAME, ITEM_TYPE, NUMBER_OF_ELEMENTS ) \
-  ITEM_TYPE buffer_##BUFFER_NAME[NUMBER_OF_ELEMENTS]; \
+  ITEM_TYPE volatile buffer_##BUFFER_NAME[NUMBER_OF_ELEMENTS]; \
 \
   circularBuffer BUFFER_NAME = \
   { \
@@ -43,6 +67,7 @@ circularBuffer BUFFER_NAME;
   .buffer = &buffer_##BUFFER_NAME \
   };
 
+//! Possible return values for the public functions below
 typedef enum RESULT
 {
   SUCCESS = 0,
@@ -52,10 +77,28 @@ typedef enum RESULT
   QUEUE_EMPTY = -4,
 }RESULT;
 
+//Public functions
 
-void resetQueue(circularBuffer *thisBuffer);
-RESULT addItem(circularBuffer *thisBuffer, const void *item);
-RESULT popItem(circularBuffer *thisBuffer, void *item);
-uint8_t getItemsInQueue(circularBuffer *thisBuffer);
+/*
+ * Soft resets the queue to empty. Does not clear the
+ * the associated buffer memory to 0.
+ */
+void resetQueue(const circularBuffer *thisBuffer);
+
+/*
+ * Adds an item to the queue if there is an available space.
+ */
+RESULT addItem(const circularBuffer *thisBuffer, const void *item);
+
+/*
+ * Removes the oldest item from the queue and returns in
+ * 'item'.
+ */
+RESULT popItem(const circularBuffer *thisBuffer, void *item);
+
+/*
+ * Returns the number of items in queue.
+ */
+uint8_t getItemsInQueue(const circularBuffer *thisBuffer);
 
 #endif
