@@ -4,7 +4,7 @@
 
 #include "CircularBuffer.h"
 
-
+//! Advances the index respecting wrap around.
 static uint8_t advanceIndex(uint8_t index, const uint8_t maxQueueSize)
 {
   if(++index == maxQueueSize)
@@ -16,7 +16,7 @@ static uint8_t advanceIndex(uint8_t index, const uint8_t maxQueueSize)
   return index;
 }
 
-void resetQueue(circularBuffer *thisBuffer)
+void resetQueue(const circularBuffer *thisBuffer)
 {
 THREAD_SAFE_BEGIN
 
@@ -31,7 +31,7 @@ THREAD_SAFE_END
   return;
 }
 
-RESULT addItem(circularBuffer *thisBuffer, const void *item)
+RESULT addItem(const circularBuffer *thisBuffer, const void *item)
 {
   THREAD_SAFE_BEGIN
 
@@ -87,7 +87,7 @@ THREAD_SAFE_END
   return result;
 }
 
-RESULT popItem(circularBuffer *thisBuffer, void *item)
+RESULT popItem(const circularBuffer *thisBuffer, void *item)
 {
 THREAD_SAFE_BEGIN
 
@@ -143,7 +143,7 @@ THREAD_SAFE_END
   return result;
 }
 
-uint8_t getItemsInQueue(circularBuffer *thisBuffer)
+uint8_t getItemsInQueue(const circularBuffer *thisBuffer)
 {
   uint8_t size;
 
