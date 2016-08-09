@@ -29,7 +29,7 @@ typedef struct circularBuffer
   uint8_t queueHeadIndex;
   uint8_t queueTailIndex;
 
-  void const *buffer; //pointer to the actual buffer
+  void * const buffer; //pointer to the actual buffer
 }circularBuffer;
 
 /*
