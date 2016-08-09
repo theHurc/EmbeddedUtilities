@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jake/EmbeddedUtilities/CircularBuffer/src/CircularBuffer.c
+stdint.h
+-
+stdio.h
+-
+CircularBuffer.h
+/home/jake/EmbeddedUtilities/CircularBuffer/src/CircularBuffer.h
+
+include/CircularBuffer.h
+stdint.h
+-
+

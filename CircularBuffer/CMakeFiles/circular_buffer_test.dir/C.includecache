@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jake/EmbeddedUtilities/CircularBuffer/test/test.c
+CircularBuffer.h
+/home/jake/EmbeddedUtilities/CircularBuffer/test/CircularBuffer.h
+assert.h
+/home/jake/EmbeddedUtilities/CircularBuffer/test/assert.h
+stdio.h
+/home/jake/EmbeddedUtilities/CircularBuffer/test/stdio.h
+limits.h
+/home/jake/EmbeddedUtilities/CircularBuffer/test/limits.h
+stdbool.h
+/home/jake/EmbeddedUtilities/CircularBuffer/test/stdbool.h
+
+include/CircularBuffer.h
+stdint.h
+-
+
