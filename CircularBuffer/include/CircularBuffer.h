@@ -20,7 +20,7 @@
  * shouldn't be touched by the client. The client should just pass
  * a pointer to the buffer for buffer operations.
  */
-typedef struct circularBuffer
+typedef volatile struct circularBuffer
 {
   const uint8_t maxQueueSize;
 
@@ -35,12 +35,9 @@ typedef struct circularBuffer
 /*
  * Macro declaring buffer structure; Use in .h file make visable
  * to other files.
- *
- * Volatile because this may be used between the main application
- * and an interrupt.
  */
 #define declare_circular_buffer( BUFFER_NAME ) \
-extern volatile circularBuffer BUFFER_NAME;
+extern circularBuffer BUFFER_NAME;
 
 /*
  * Macro that allocates and initializes memory for a buffer structure.
@@ -54,10 +51,10 @@ extern volatile circularBuffer BUFFER_NAME;
  * any functions. (It's a compile time thing; not runtime.)
  */
 #define define_circular_buffer( BUFFER_NAME, ITEM_TYPE, NUMBER_OF_ELEMENTS ) \
-  ITEM_TYPE volatile buffer_##BUFFER_NAME[NUMBER_OF_ELEMENTS]; \
+ITEM_TYPE buffer_##BUFFER_NAME[NUMBER_OF_ELEMENTS]; \
 \
-  circularBuffer BUFFER_NAME = \
-  { \
+circularBuffer BUFFER_NAME = \
+{ \
   .maxQueueSize = NUMBER_OF_ELEMENTS,  \
   .bytesPerElement = sizeof(ITEM_TYPE), \
   .itemsInQueue = 0, \
@@ -65,7 +62,7 @@ extern volatile circularBuffer BUFFER_NAME;
   .queueTailIndex = 0, \
 \
   .buffer = &buffer_##BUFFER_NAME \
-  };
+};
 
 //! Possible return values for the public functions below
 typedef enum RESULT
