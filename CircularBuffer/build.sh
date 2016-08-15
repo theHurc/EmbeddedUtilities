@@ -83,8 +83,7 @@ fi
 gcc -L${PWD}/${LIBRARY_DIRECTORY} -Wl,-rpath=${PWD}/${LIBRARY_DIRECTORY} -Wall -o test.out ./test/test.c -lCircularBuffer -I ./include
 mv test.out ./${EXECUTABLE_DIRECTORY}
 
-echo "${SUCCESS_COLOR}Build successful!"
-echo "Libraries placed in ${LIBRARY_DIRECTORY}/"
+echo "${SUCCESS_COLOR}Built executables!"
 echo "Executables placed in ${EXECUTABLE_DIRECTORY}/"
 echo "${NO_COLOR}"
 
