@@ -1,12 +1,15 @@
 #!/bin/bash
 
-gcc -o CircularBuffer.o -c -Wall -Werror -fpic ./src/CircularBuffer.c -I ./include
+LIBRARY_NAME=CircularBuffer
 
-gcc -shared -o libCircularBuffer.so CircularBuffer.o
-mv libCircularBuffer.so ./lib
-rm CircularBuffer.o
+#Create shared library object
+gcc -o ${LIBRARY_NAME}.o -c -Wall -Werror -fpic ./src/CircularBuffer.c -I ./include
+gcc -shared -o lib${LIBRARY_NAME}.so ${LIBRARY_NAME}.o
+mv lib${LIBRARY_NAME}.so ./lib
+rm ${LIBRARY_NAME}.o
 
-gcc -L/home/jake/EmbeddedUtilities/CircularBuffer/lib -Wl,-rpath=/home/jake/EmbeddedUtilities/CircularBuffer/lib -Wall -o test.out ./test/test.c -lCircularBuffer -I ./include
+#Create test executable and link to above shared object
+gcc -L${PWD}/lib -Wl,-rpath=${PWD}/lib -Wall -o test.out ./test/test.c -lCircularBuffer -I ./include
 mv test.out ./bin
 
 

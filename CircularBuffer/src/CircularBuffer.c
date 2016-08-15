@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#include "CircularBuffer.h"
+#include "CircularBuffer/CircularBuffer.h"
 
 //! Advances the index respecting wrap around.
 static uint8_t advanceIndex(uint8_t index, const uint8_t maxQueueSize)
