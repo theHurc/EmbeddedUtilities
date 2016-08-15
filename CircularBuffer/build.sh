@@ -2,6 +2,9 @@
 
 LIBRARY_NAME=CircularBuffer
 
+mkdir lib > /dev/null 2>&1
+mkdir bin > /dev/null 2>&1
+
 #Create shared library object
 gcc -o ${LIBRARY_NAME}.o -c -Wall -Werror -fpic ./src/CircularBuffer.c -I ./include
 gcc -shared -o lib${LIBRARY_NAME}.so ${LIBRARY_NAME}.o
