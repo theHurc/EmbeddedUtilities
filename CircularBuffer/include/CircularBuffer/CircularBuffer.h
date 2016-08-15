@@ -3,14 +3,6 @@
 
 #include <stdint.h>
 
-//TODO: Remove to common
-//BEGIN: User defined MACROS
-#define LOGGER(MESSAGE) printf(MESSAGE);printf("\n");
-
-#define THREAD_SAFE_BEGIN
-#define THREAD_SAFE_END
-//END: User defined MACROS
-
 /*
  * Structure that holds all variables related to a circular buffer.
  *
