@@ -20,11 +20,18 @@ void resetQueue(CircularBuffer * const buffer)
 {
 THREAD_SAFE_BEGIN
 
-  buffer->_items_in_queue = 0;
-  buffer->_queue_head_index = 0;
-  buffer->_queue_tail_index = 0;
+  if( buffer == NULL )
+  {
+    LOGGER("Buffer pointer NULL; Not resetting queue");
+  }
+  else
+  {
+    buffer->_items_in_queue = 0;
+    buffer->_queue_head_index = 0;
+    buffer->_queue_tail_index = 0;
 
-  LOGGER("Queue reset.")
+    LOGGER("Queue reset.")
+  }
 
 THREAD_SAFE_END
 
@@ -144,11 +151,18 @@ THREAD_SAFE_END
 
 uint8_t getNumberOfItemsInQueue(CircularBuffer * const buffer)
 {
-  uint8_t size;
-
 THREAD_SAFE_BEGIN
 
-  size = buffer->_items_in_queue;
+  uint8_t size = 0;
+
+  if( buffer == NULL )
+  {
+    LOGGER("Buffer pointer NULL; Cannot get number of items.");
+  }
+  else
+  {
+    size = buffer->_items_in_queue;
+  }
 
 THREAD_SAFE_END
 
