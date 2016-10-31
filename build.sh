@@ -4,7 +4,7 @@
 mkdir bin > /dev/null 2>&1
 
 #Remove the executables already there
-rm ./bin/*
+rm ./bin/* > /dev/null 2>&1
 
 echo "Building thread safe circular buffer test"
 
@@ -23,5 +23,11 @@ echo "Building X Macro example"
 gcc -o x_macro_example.out -Wall -Werror ./example/x_macro_example.c ./src/XMacroTable.c ./src/XMacroTableExtended.c -I ./include
 
 mv x_macro_example.out ./bin
+
+echo "Building Cooperative Scheduler example"
+
+gcc -o cooperative_scheduler_example.out -Wall -Werror ./example/cooperative_scheduler_example.c ./src/CooperativeScheduler.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c ./src/Logger.c -I ./include
+
+mv cooperative_scheduler_example.out ./bin
 
 exit 0
