@@ -88,8 +88,8 @@ RESULT addItem(CircularBuffer * const buffer, const void * const item);
  * Removes the item from the front of the queue if an item is available
  *
  * @param buffer  The buffer to remove an item
- * @param item  Contains the item removed from the front of the queue if
- *              there was an item to remove. Undefined otherwise.
+ * @param[out] item  Contains the item removed from the front of the queue if
+ *             there was an item to remove. Undefined otherwise.
  * @return  Result of the operation; item is only valid if return was SUCCESSFUL
  */
 RESULT popItem(CircularBuffer * const buffer, void * const item);
