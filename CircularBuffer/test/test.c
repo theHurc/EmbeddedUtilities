@@ -58,21 +58,21 @@ int main ()
 
 //Queue status at the beginning
   assert(popItem(&testBuffer, &popNumber) == QUEUE_EMPTY);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
 
 //Add a single item
   addNumber = 15;
   assert(addItem(&testBuffer, &addNumber) == SUCCESS);
-  assert(getItemsInQueue(&testBuffer) == 1);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 1);
 
 //Remove a single item
   assert(popItem(&testBuffer, &popNumber) == SUCCESS);
   assert(popNumber == addNumber);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
 
 //Remove a single item from empty queue
   assert(popItem(&testBuffer, &popNumber) == QUEUE_EMPTY);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
 
 //fill up the queue
   addNumber = 0;
@@ -81,18 +81,18 @@ int main ()
   {
     addNumber++;
     assert(addItem(&testBuffer, &addNumber) == SUCCESS);
-    assert(getItemsInQueue(&testBuffer) == addNumber);
+    assert(getNumberOfItemsInQueue(&testBuffer) == addNumber);
 
   }
 
 //Overfill queue
   addNumber = 110;
   assert(addItem(&testBuffer, &addNumber) == QUEUE_FULL);
-  assert(getItemsInQueue(&testBuffer) == 5);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 5);
 
   addNumber = 120;
   assert(addItem(&testBuffer, &addNumber) == QUEUE_FULL);
-  assert(getItemsInQueue(&testBuffer) == 5);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 5);
 
 //empty queue
   addNumber = 0;
@@ -106,12 +106,12 @@ int main ()
     addNumber++;
     assert(popItem(&testBuffer, &popNumber) == SUCCESS);
     assert(popNumber == addNumber);
-    assert(getItemsInQueue(&testBuffer) == (BUFFER_SIZE - addNumber));
+    assert(getNumberOfItemsInQueue(&testBuffer) == (BUFFER_SIZE - addNumber));
   }
 
 //Remove items from empty queue
   assert(popItem(&testBuffer, &popNumber) == QUEUE_EMPTY);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
 
 //Add a few more items
   addNumber = 45903;
@@ -129,30 +129,30 @@ int main ()
 //Pop one more item
   assert(popItem(&testBuffer, &popNumber) == SUCCESS);
   assert(popNumber == 45903);
-  assert(getItemsInQueue(&testBuffer) == 1);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 1);
 
 //reset queue
   resetQueue(&testBuffer);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
 
 //Add a few more items
   addNumber = INT_MAX;
   assert(addItem(&testBuffer, &addNumber) == SUCCESS);
-  assert(getItemsInQueue(&testBuffer) == 1);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 1);
   assert(popItem(&testBuffer, &popNumber) == SUCCESS);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
   assert(popNumber == INT_MAX);
 
   addNumber = 255;
   assert(addItem(&testBuffer, &addNumber) == SUCCESS);
-  assert(getItemsInQueue(&testBuffer) == 1);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 1);
   assert(popItem(&testBuffer, &popNumber) == SUCCESS);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
   assert(popNumber == 255);
 
 //reset queue
   resetQueue(&testBuffer);
-  assert(getItemsInQueue(&testBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testBuffer) == 0);
 
 
 //TestStruct tests
@@ -178,16 +178,16 @@ int main ()
 //Add some items
   assert(addItem(&testStructBuffer, &Anothertest) == SUCCESS);
   assert(addItem(&testStructBuffer, &Firsttest) == SUCCESS);
-  assert(getItemsInQueue(&testStructBuffer) == 2);
+  assert(getNumberOfItemsInQueue(&testStructBuffer) == 2);
 
 //Remove the items
   assert(popItem(&testStructBuffer, &returnedTestStruct) == SUCCESS);
   assert(compareTestStruct(Anothertest, returnedTestStruct) == true);
-  assert(getItemsInQueue(&testStructBuffer) == 1);
+  assert(getNumberOfItemsInQueue(&testStructBuffer) == 1);
 
   assert(popItem(&testStructBuffer, &returnedTestStruct) == SUCCESS);
   assert(compareTestStruct(Anothertest, returnedTestStruct) == true);
-  assert(getItemsInQueue(&testStructBuffer) == 0);
+  assert(getNumberOfItemsInQueue(&testStructBuffer) == 0);
 
   assert(popItem(&testStructBuffer, &popNumber) == QUEUE_EMPTY);
 

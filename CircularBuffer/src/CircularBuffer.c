@@ -6,24 +6,24 @@
 #include <stdio.h>
 
 //! Advances the index respecting wrap around.
-static uint8_t advanceIndex(uint8_t index, const uint8_t maxQueueSize)
+static uint8_t advanceIndex(uint8_t current_index, const uint8_t queue_size)
 {
-  if(++index == maxQueueSize)
+  if(++current_index == queue_size)
   {
-    index = 0;
+    current_index = 0;
     LOGGER("Pointer wrapped to beginning of queue.")
   }
 
-  return index;
+  return current_index;
 }
 
-void resetQueue(circularBuffer * const thisBuffer)
+void resetQueue(CircularBuffer * const buffer)
 {
 THREAD_SAFE_BEGIN
 
-  thisBuffer->itemsInQueue = 0;
-  thisBuffer->queueHeadIndex = 0;
-  thisBuffer->queueTailIndex = 0;
+  buffer->_items_in_queue = 0;
+  buffer->_queue_head_index = 0;
+  buffer->_queue_tail_index = 0;
 
   LOGGER("Queue reset.")
 
@@ -32,9 +32,9 @@ THREAD_SAFE_END
   return;
 }
 
-RESULT addItem(circularBuffer * const thisBuffer, const void *item)
+RESULT addItem(CircularBuffer * const buffer, const void * const item)
 {
-  THREAD_SAFE_BEGIN
+THREAD_SAFE_BEGIN
 
   RESULT result;
   uint16_t index = 0;
@@ -42,7 +42,7 @@ RESULT addItem(circularBuffer * const thisBuffer, const void *item)
   uint8_t *bufferPtr;
   uint8_t *itemPtr;
 
-  if( thisBuffer == NULL )
+  if( buffer == NULL )
   {
     LOGGER("Buffer pointer NULL; Not adding item");
     result = NULL_BUFFER_PTR;
@@ -52,20 +52,20 @@ RESULT addItem(circularBuffer * const thisBuffer, const void *item)
     LOGGER("Item pointer NULL; Not adding item");
     result = NULL_ITEM_PTR;
   }
-  else if(thisBuffer->itemsInQueue == thisBuffer->maxQueueSize)
+  else if(buffer->_items_in_queue == buffer->_max_queue_size)
   {
     LOGGER("Adding item failed. Queue Full")
     result = QUEUE_FULL;
   }
   else
   {
-    bufferPtr = ((uint8_t *)thisBuffer->buffer);
+    bufferPtr = ((uint8_t *)buffer->_buffer);
     itemPtr = ((uint8_t *)item);
 
-    bufferPtr += ((thisBuffer->queueHeadIndex) * thisBuffer->bytesPerElement);
+    bufferPtr += ((buffer->_queue_head_index) * buffer->_bytes_per_element);
 
     //Manually fill in all the buffer element byte by byte
-    for( index = 0; index < thisBuffer->bytesPerElement; index++)
+    for( index = 0; index < buffer->_bytes_per_element; index++)
     {
 
       *bufferPtr = *itemPtr;
@@ -74,9 +74,9 @@ RESULT addItem(circularBuffer * const thisBuffer, const void *item)
       itemPtr += 1;
     }
 
-    thisBuffer->queueHeadIndex = advanceIndex(thisBuffer->queueHeadIndex, thisBuffer->maxQueueSize);
+    buffer->_queue_head_index = advanceIndex(buffer->_queue_head_index, buffer->_max_queue_size);
 
-    thisBuffer->itemsInQueue++;
+    buffer->_items_in_queue++;
 
     LOGGER("Added item to queue.")
 
@@ -88,7 +88,7 @@ THREAD_SAFE_END
   return result;
 }
 
-RESULT popItem( circularBuffer * const thisBuffer, void *item)
+RESULT popItem( CircularBuffer * const buffer, void * const item)
 {
 THREAD_SAFE_BEGIN
 
@@ -98,7 +98,7 @@ THREAD_SAFE_BEGIN
   uint8_t *bufferPtr;
   uint8_t *itemPtr;
 
-  if( thisBuffer == NULL )
+  if( buffer == NULL )
   {
     LOGGER("Buffer pointer NULL; Not adding item");
     result = NULL_BUFFER_PTR;
@@ -108,31 +108,30 @@ THREAD_SAFE_BEGIN
     LOGGER("Item pointer NULL; Not adding item");
     result = NULL_ITEM_PTR;
   }
-  else if(thisBuffer->itemsInQueue == 0)
+  else if(buffer->_items_in_queue == 0)
   {
     LOGGER("Popping item failed. Queue empty.")
     result = QUEUE_EMPTY;
   }
   else
   {
-    bufferPtr = ((uint8_t *)thisBuffer->buffer);
+    bufferPtr = ((uint8_t *)buffer->_buffer);
     itemPtr = ((uint8_t *)item);
 
-    bufferPtr += ((thisBuffer->queueTailIndex) * thisBuffer->bytesPerElement);
+    bufferPtr += ((buffer->_queue_tail_index) * buffer->_bytes_per_element);
 
-    //Manually fill in all the buffer element byte by byte
-    for( index = 0; index < thisBuffer->bytesPerElement; index++)
+    //Manually fill in all the buffer elements byte by byte
+    for( index = 0; index < buffer->_bytes_per_element; index++)
     {
-
       *itemPtr = *bufferPtr;
 
       bufferPtr += 1;
       itemPtr += 1;
     }
 
-    thisBuffer->queueTailIndex = advanceIndex(thisBuffer->queueTailIndex, thisBuffer->maxQueueSize);
+    buffer->_queue_tail_index = advanceIndex(buffer->_queue_tail_index, buffer->_max_queue_size);
 
-    thisBuffer->itemsInQueue--;
+    buffer->_items_in_queue--;
 
     LOGGER("Popped item from queue.")
 
@@ -144,13 +143,13 @@ THREAD_SAFE_END
   return result;
 }
 
-uint8_t getItemsInQueue(circularBuffer * const thisBuffer)
+uint8_t getNumberOfItemsInQueue(CircularBuffer * const buffer)
 {
   uint8_t size;
 
 THREAD_SAFE_BEGIN
 
-  size = thisBuffer->itemsInQueue;
+  size = buffer->_items_in_queue;
 
 THREAD_SAFE_END
 
