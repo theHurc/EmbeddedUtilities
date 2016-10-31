@@ -1,0 +1,4 @@
+#ifndef __CO_OPERATIVE_SCHEDULER__
+#define __CO_OPERATIVE_SCHEDULER__
+
+#endif
