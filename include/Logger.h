@@ -6,9 +6,11 @@
  * Lightweight logger. Based on macros so that depending on the logging level
  * the code can be compiled out.
  *
- * Can be compiled with '-DLOGGING_LEVEL=DEBUG' or whatever level is required
+ * Can be compiled with '-DLOGGING_LEVEL=DEBUG' or whatever level is required to
+ * change during the build process.
  */
 
+//Intentionally not using level 0 because apparently an undefined macro is 0
 #define DEBUG 1
 #define INFO 2
 #define WARN 3
