@@ -1,4 +1,4 @@
-#include "CoOperativeScheduler/CoOperativeScheduler.h"
+#include "CoOperativeScheduler.h"
 
 void schedulerAddTask( void (*task)(void),
                        uint32_t begin_time_ms,

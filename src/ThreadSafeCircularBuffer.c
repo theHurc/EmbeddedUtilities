@@ -1,5 +1,5 @@
-#include "ThreadSafeCircularBuffer/ThreadSafeCircularBuffer.h"
-#include "Common/UserDefines.h"
+#include "ThreadSafeCircularBuffer.h"
+#include "UserDefines.h"
 
 #include <stdint.h>
 #include <stdio.h>

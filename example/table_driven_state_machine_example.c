@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "TableDrivenStateMachine/TableDrivenStateMachine.h"
+#include "TableDrivenStateMachine.h"
 
 void testFunction(void *contextData)
 {
