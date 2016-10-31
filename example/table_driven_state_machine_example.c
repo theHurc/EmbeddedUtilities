@@ -19,14 +19,7 @@ TableEntry stateTable[] =
   {1, testFunction, testTriggerFunction, testFunction, 0}
 };
 
-//TODO: Change this to happen in the macro
-const int TABLE_SIZE = (sizeof(stateTable)/sizeof(stateTable[0]));
-
-DEFINE_STATE_MACHINE( test_state_machine,
-                      stateTable,
-                      TABLE_SIZE,
-                      0,
-                      NULL )
+DEFINE_STATE_MACHINE( test_state_machine, stateTable, 0, NULL )
 
 int main()
 {

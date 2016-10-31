@@ -41,7 +41,6 @@ typedef struct StateMachine
  */
 #define DEFINE_STATE_MACHINE( STATE_MACHINE_NAME, \
                               TABLE_NAME, \
-                              TABLE_SIZE, \
                               START_STATE, \
                               POINTER_TO_CONTEXT_DATA ) \
 StateMachine STATE_MACHINE_NAME = \
