@@ -1,11 +1,11 @@
 #include <stdio.h>
 
-#include "tableDrivenStateMachine.h"
+#include "TableDrivenStateMachine/TableDrivenStateMachine.h"
 
-int testFunction(void *contextData)
+void testFunction(void *contextData)
 {
   printf("Here we go!\n");
-  return 0;
+  return;
 }
 
 bool testTriggerFunction(void *contextData)
@@ -13,13 +13,20 @@ bool testTriggerFunction(void *contextData)
   return true;
 }
 
-tableEntry stateTable[] = 
+TableEntry stateTable[] = 
 {
   {0, testFunction, testTriggerFunction, testFunction, 1},
   {1, testFunction, testTriggerFunction, testFunction, 0}
 };
 
+//TODO: Change this to happen in the macro
 const int TABLE_SIZE = (sizeof(stateTable)/sizeof(stateTable[0]));
+
+DEFINE_STATE_MACHINE( test_state_machine,
+                      stateTable,
+                      TABLE_SIZE,
+                      0,
+                      NULL )
 
 int main()
 {
@@ -27,13 +34,9 @@ int main()
 
   int i = 0;
 
-  stateMachine machine;
-
-  initMachine(&machine, stateTable, TABLE_SIZE, 0, NULL);
-
   for(i = 0; i < 10; i++)
   {
-    executeStateMachine(&machine);
+    executeStateMachine(&test_state_machine);
   }
 
   return 0;
