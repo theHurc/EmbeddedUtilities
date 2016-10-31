@@ -1,5 +1,6 @@
 #include "ThreadSafeCircularBuffer.h"
 #include "UserDefines.h"
+#include "CriticalSection.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -18,7 +19,7 @@ static uint8_t advanceIndex(uint8_t current_index, const uint8_t queue_size)
 
 void resetQueue(CircularBuffer * const buffer)
 {
-THREAD_SAFE_BEGIN
+  enterCriticalSection();
 
   if( buffer == NULL )
   {
@@ -33,14 +34,14 @@ THREAD_SAFE_BEGIN
     LOGGER("Queue reset.")
   }
 
-THREAD_SAFE_END
+  exitCriticalSection();
 
   return;
 }
 
 RESULT addItem(CircularBuffer * const buffer, const void * const item)
 {
-THREAD_SAFE_BEGIN
+  enterCriticalSection();
 
   RESULT result;
   uint16_t index = 0;
@@ -89,14 +90,14 @@ THREAD_SAFE_BEGIN
     result = SUCCESS;
   }
 
-THREAD_SAFE_END
+  exitCriticalSection();
 
   return result;
 }
 
 RESULT popItem( CircularBuffer * const buffer, void * const item)
 {
-THREAD_SAFE_BEGIN
+  enterCriticalSection();
 
   RESULT result;
   uint16_t index =0;
@@ -144,14 +145,14 @@ THREAD_SAFE_BEGIN
     result = SUCCESS;
   }
 
-THREAD_SAFE_END
+  exitCriticalSection();
 
   return result;
 }
 
 uint8_t getNumberOfItemsInQueue(CircularBuffer * const buffer)
 {
-THREAD_SAFE_BEGIN
+  enterCriticalSection();
 
   uint8_t size = 0;
 
@@ -164,7 +165,7 @@ THREAD_SAFE_BEGIN
     size = buffer->_items_in_queue;
   }
 
-THREAD_SAFE_END
+  exitCriticalSection();
 
   return size;
 }
