@@ -12,7 +12,7 @@
  * shouldn't be touched by the client. The client should just pass
  * a pointer to the buffer for buffer operations.
  */
-typedef volatile struct circularBuffer
+typedef struct circularBuffer
 {
   const uint8_t maxQueueSize;
 
@@ -28,21 +28,20 @@ typedef volatile struct circularBuffer
  * Macro declaring buffer structure; Use in .h file make visable
  * to other files.
  */
-#define declare_circular_buffer( BUFFER_NAME ) \
+#define DECLARE_CIRCULAR_BUFFER( BUFFER_NAME ) \
 extern circularBuffer BUFFER_NAME;
 
 /*
  * Macro that allocates and initializes memory for a buffer structure.
  *
- * BUFFER_NAME must be the same if using the above 'declare' macro.
- * Volatile because this may be used between the main application
- * and an interrupt.
+ * BUFFER_NAME must be the same if using the above 'DECLARE_CIRCULAR_BUFFER'
+ * macro.
  *
  * This maybe isn't obvious from the macro itself but this is actually
- * initializing each variable in the struct so it must be outside
- * any functions. (It's a compile time thing; not runtime.)
+ * initializing each variable in the struct as well as statically allocating
+ * memory for the buffer so it must be outside any functions.
  */
-#define define_circular_buffer( BUFFER_NAME, ITEM_TYPE, NUMBER_OF_ELEMENTS ) \
+#define DEFINE_CIRCULAR_BUFFER( BUFFER_NAME, ITEM_TYPE, NUMBER_OF_ELEMENTS ) \
 ITEM_TYPE buffer_##BUFFER_NAME[NUMBER_OF_ELEMENTS]; \
 \
 circularBuffer BUFFER_NAME = \

@@ -25,8 +25,8 @@ typedef struct TestStruct
 }TestStruct;
 
 
-define_circular_buffer(testBuffer, int, BUFFER_SIZE);
-define_circular_buffer(testStructBuffer, TestStruct, STRUCT_BUFFER_SIZE);
+DEFINE_CIRCULAR_BUFFER(testBuffer, int, BUFFER_SIZE);
+DEFINE_CIRCULAR_BUFFER(testStructBuffer, TestStruct, STRUCT_BUFFER_SIZE);
 
 
 bool compareTestStruct(TestStruct test1, TestStruct test2)
