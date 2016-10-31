@@ -4,7 +4,7 @@ isCleanOption=false #indicates if build artifacts should be removed
 isSharedOption=false #indicates if ONLY shared object should be built
 isHelpOption=false #indicates if only shared object should be built
 
-LIBRARY_NAME=CircularBuffer
+LIBRARY_NAME=ThreadSafeCircularBuffer
 EXECUTABLE_DIRECTORY=bin
 LIBRARY_DIRECTORY=lib
 
@@ -64,7 +64,7 @@ fi
 
 
 #Create shared library object
-gcc -o ${LIBRARY_NAME}.o -c -Wall -Werror -fpic ./src/CircularBuffer.c -I ./include -I../Common/include
+gcc -o ${LIBRARY_NAME}.o -c -Wall -Werror -fpic ./src/ThreadSafeCircularBuffer.c -I ./include -I../Common/include
 gcc -shared -o lib${LIBRARY_NAME}.so ${LIBRARY_NAME}.o
 mv lib${LIBRARY_NAME}.so ./${LIBRARY_DIRECTORY}
 rm ${LIBRARY_NAME}.o
@@ -80,7 +80,7 @@ if [[ "${isSharedOption}" = true ]]; then
 fi
 
 #Create test executable and link to above shared object
-gcc -L${PWD}/${LIBRARY_DIRECTORY} -Wl,-rpath=${PWD}/${LIBRARY_DIRECTORY} -Wall -o test.out ./test/test.c -lCircularBuffer -I ./include -I../Common/include
+gcc -L${PWD}/${LIBRARY_DIRECTORY} -Wl,-rpath=${PWD}/${LIBRARY_DIRECTORY} -Wall -o test.out ./test/test.c -lThreadSafeCircularBuffer -I ./include -I../Common/include
 mv test.out ./${EXECUTABLE_DIRECTORY}
 
 echo "${SUCCESS_COLOR}Built executables!"

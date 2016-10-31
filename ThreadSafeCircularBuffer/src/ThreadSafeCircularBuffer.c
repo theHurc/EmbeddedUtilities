@@ -1,5 +1,4 @@
-//Generic circular buffer
-#include "CircularBuffer/CircularBuffer.h"
+#include "ThreadSafeCircularBuffer/ThreadSafeCircularBuffer.h"
 #include "Common/UserDefines.h"
 
 #include <stdint.h>

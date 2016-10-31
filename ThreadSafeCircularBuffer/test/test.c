@@ -1,4 +1,4 @@
-#include "CircularBuffer/CircularBuffer.h"
+#include "ThreadSafeCircularBuffer/ThreadSafeCircularBuffer.h"
 #include "assert.h"
 #include "stdio.h"
 #include "limits.h"
