@@ -6,6 +6,11 @@ void executeStateMachine(StateMachine * const machine)
 {
   uint8_t i, r;
 
+  if( machine == NULL )
+  {
+    return;
+  }
+
   printf("Current state: %d\n", machine->_current_state);
 
   for(i = 0; i < machine->_table_size; i++)
