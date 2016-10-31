@@ -4,29 +4,19 @@
 #include <stdbool.h>
 
 static bool isInitialized = false;
-static LOGGING_LEVEL logging_level = DEBUG;
 
 void initLogger()
 {
   isInitialized = true;
 }
 
-void setLoggingLevel( LOGGING_LEVEL level )
-{
-  logging_level = level;
-}
-
-
-void logIt( LOGGING_LEVEL level, char *log )
+void logIt( uint8_t level, char *log )
 {
   if( !isInitialized )
   {
     return;
   }
 
-  if( level >= logging_level )
-  {
-    printf("%s\n", log);
-  }
+  printf("%d: %s\n", level, log);
 }
 

@@ -59,7 +59,6 @@ int main ()
   int popNumber = 0;
 
   initLogger();
-  setLoggingLevel(DEBUG);
 
 //Queue status at the beginning
   assert(popItem(&testBuffer, &popNumber) == QUEUE_EMPTY);
