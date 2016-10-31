@@ -1,4 +1,5 @@
 #include "ThreadSafeCircularBuffer.h"
+#include "Logger.h"
 
 #include "assert.h"
 #include "stdio.h"
@@ -57,6 +58,9 @@ int main ()
   int addNumber = 0;
   int popNumber = 0;
 
+  initLogger();
+  setLoggingLevel(DEBUG);
+
 //Queue status at the beginning
   assert(popItem(&testBuffer, &popNumber) == QUEUE_EMPTY);
   assert(getNumberOfItemsInQueue(&testBuffer) == 0);
@@ -103,7 +107,6 @@ int main ()
 
   for(i = 0; i < BUFFER_SIZE; i++)
   {
-    printf("Pop an item: %x\n", i);
     addNumber++;
     assert(popItem(&testBuffer, &popNumber) == SUCCESS);
     assert(popNumber == addNumber);

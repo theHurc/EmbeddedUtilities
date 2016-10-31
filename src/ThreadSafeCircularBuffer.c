@@ -1,5 +1,5 @@
 #include "ThreadSafeCircularBuffer.h"
-#include "UserDefines.h"
+#include "Logger.h"
 #include "CriticalSection.h"
 
 #include <stdint.h>
@@ -11,7 +11,7 @@ static uint8_t advanceIndex(uint8_t current_index, const uint8_t queue_size)
   if(++current_index == queue_size)
   {
     current_index = 0;
-    LOGGER("Pointer wrapped to beginning of queue.")
+    logIt( DEBUG, "Pointer wrapped to beginning of queue.");
   }
 
   return current_index;
@@ -23,7 +23,7 @@ void resetQueue(CircularBuffer * const buffer)
 
   if( buffer == NULL )
   {
-    LOGGER("Buffer pointer NULL; Not resetting queue");
+    logIt( ERR, "Buffer pointer NULL; Not resetting queue");
   }
   else
   {
@@ -31,7 +31,7 @@ void resetQueue(CircularBuffer * const buffer)
     buffer->_queue_head_index = 0;
     buffer->_queue_tail_index = 0;
 
-    LOGGER("Queue reset.")
+    logIt( DEBUG, "Queue reset.");
   }
 
   exitCriticalSection();
@@ -51,17 +51,17 @@ RESULT addItem(CircularBuffer * const buffer, const void * const item)
 
   if( buffer == NULL )
   {
-    LOGGER("Buffer pointer NULL; Not adding item");
+    logIt( ERR, "Buffer pointer NULL; Not adding item");
     result = NULL_BUFFER_PTR;
   }
   else if( item == NULL )
   {
-    LOGGER("Item pointer NULL; Not adding item");
+    logIt( ERR, "Item pointer NULL; Not adding item");
     result = NULL_ITEM_PTR;
   }
   else if(buffer->_items_in_queue == buffer->_max_queue_size)
   {
-    LOGGER("Adding item failed. Queue Full")
+    logIt( WARN, "Adding item failed. Queue Full");
     result = QUEUE_FULL;
   }
   else
@@ -85,7 +85,7 @@ RESULT addItem(CircularBuffer * const buffer, const void * const item)
 
     buffer->_items_in_queue++;
 
-    LOGGER("Added item to queue.")
+    logIt( DEBUG, "Added item to queue.");
 
     result = SUCCESS;
   }
@@ -107,17 +107,17 @@ RESULT popItem( CircularBuffer * const buffer, void * const item)
 
   if( buffer == NULL )
   {
-    LOGGER("Buffer pointer NULL; Not adding item");
+    logIt( ERR, "Buffer pointer NULL; Not adding item");
     result = NULL_BUFFER_PTR;
   }
   else if( item == NULL )
   {
-    LOGGER("Item pointer NULL; Not adding item");
+    logIt( ERR, "Item pointer NULL; Not adding item");
     result = NULL_ITEM_PTR;
   }
   else if(buffer->_items_in_queue == 0)
   {
-    LOGGER("Popping item failed. Queue empty.")
+    logIt( WARN, "Popping item failed. Queue empty.");
     result = QUEUE_EMPTY;
   }
   else
@@ -140,7 +140,7 @@ RESULT popItem( CircularBuffer * const buffer, void * const item)
 
     buffer->_items_in_queue--;
 
-    LOGGER("Popped item from queue.")
+    logIt( DEBUG, "Popped item from queue.");
 
     result = SUCCESS;
   }
@@ -158,7 +158,7 @@ uint8_t getNumberOfItemsInQueue(CircularBuffer * const buffer)
 
   if( buffer == NULL )
   {
-    LOGGER("Buffer pointer NULL; Cannot get number of items.");
+    logIt( ERR, "Buffer pointer NULL; Cannot get number of items.");
   }
   else
   {

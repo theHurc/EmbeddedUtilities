@@ -8,7 +8,7 @@ rm ./bin/*
 
 echo "Building thread safe circular buffer test"
 
-gcc -o thread_safe_circular_buffer_test.out -Wall -Werror ./test/thread_safe_circular_buffer_test.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c -I ./include
+gcc -o thread_safe_circular_buffer_test.out -Wall -Werror ./test/thread_safe_circular_buffer_test.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c ./src/Logger.c -I ./include
 
 mv thread_safe_circular_buffer_test.out ./bin
 
