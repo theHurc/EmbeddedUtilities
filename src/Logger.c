@@ -5,7 +5,7 @@
 
 static bool isInitialized = false;
 
-void initLogger()
+void initLogger(void)
 {
   isInitialized = true;
 }

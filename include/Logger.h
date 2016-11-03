@@ -47,7 +47,7 @@
 
 
 //! Set up the logger; must be called before using the logger
-void initLogger();
+void initLogger(void);
 
 //! Log only if the global logging level is at or below the message log level
 void logIt( uint8_t level, char *log );

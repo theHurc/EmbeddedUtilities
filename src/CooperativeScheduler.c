@@ -54,6 +54,15 @@ void schedulerAddPeriodicTask( void (*task)(void),
   }
 }
 
+void schedulerAddOneShotTask( void (*task)(void) )
+{
+  //TODO: Implement
+}
+
+void schedulerInit( void )
+{
+}
+
 void schedulerStart( void )
 {
   LOG_INFO("Starting the scheduler");
@@ -87,7 +96,7 @@ void schedulerDispatchTasks( void )
 
 }
 
-void scheduleTasks( void )
+void schedulerScheduleTasks( void )
 {
   uint8_t i;
 

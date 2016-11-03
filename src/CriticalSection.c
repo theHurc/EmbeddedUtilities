@@ -1,11 +1,11 @@
 #include "CriticalSection.h"
 
-void enterCriticalSection()
+void enterCriticalSection(void)
 {
   return;
 }
 
-void exitCriticalSection()
+void exitCriticalSection(void)
 {
   return;
 }

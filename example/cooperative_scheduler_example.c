@@ -15,13 +15,13 @@ void function_two( void )
 void spoof_1ms_tick(void)
 {
   //TODO:Add a timer thingy here
-  scheduleTasks();
+  schedulerScheduleTasks();
 }
 
 int main()
 {
-  schedulerAddTask(function_one, 0, 1000);
-  schedulerAddTask(function_two, 0, 3500);
+  schedulerAddPeriodicTask(function_one, 0, 1000);
+  schedulerAddPeriodicTask(function_two, 0, 3500);
 
   schedulerStart();
 
