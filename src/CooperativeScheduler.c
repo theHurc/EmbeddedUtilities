@@ -29,9 +29,9 @@ typedef void (*task_pointer)(void);
 DEFINE_CIRCULAR_BUFFER( _task_buffer, task_pointer, TASK_QUEUE_SIZE )
 
 
-void schedulerAddTask( void (*task)(void),
-                       uint32_t begin_time_ms,
-                       uint32_t repeat_time_ms )
+void schedulerAddPeriodicTask( void (*task)(void),
+                               uint32_t begin_time_ms,
+                               uint32_t repeat_time_ms )
 {
   if(_scheduler_started)
   {
