@@ -14,6 +14,7 @@ void logIt( uint8_t level, char *log )
 {
   if( !isInitialized )
   {
+    printf("Logger not initalized");
     return;
   }
 

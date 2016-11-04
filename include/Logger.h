@@ -18,7 +18,7 @@
 
 //setup the default logging level if not already defined in the compilation
 #ifndef LOGGING_LEVEL
-  #define LOGGING_LEVEL WARN
+  #define LOGGING_LEVEL DEBUG
 #endif
 
 #if LOGGING_LEVEL == DEBUG

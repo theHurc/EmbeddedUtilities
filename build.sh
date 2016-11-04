@@ -26,8 +26,12 @@ mv x_macro_example.out ./bin
 
 echo "Building Cooperative Scheduler example"
 
-gcc -o cooperative_scheduler_example.out -Wall -Werror ./example/cooperative_scheduler_example.c ./src/CooperativeScheduler.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c ./src/Logger.c -I ./include
+gcc -o cooperative_scheduler_example.out -Wall -Werror ./example/cooperative_scheduler_example.c ./src/CooperativeScheduler.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c ./src/Logger.c ./src/InterruptMock.c -I ./include -lrt
 
 mv cooperative_scheduler_example.out ./bin
+
+gcc -o interrupt_mock_example.out -Wall -Werror ./example/interrupt_mock_example.c ./src/InterruptMock.c ./src/Logger.c -I ./include -lrt
+
+mv interrupt_mock_example.out ./bin
 
 exit 0
