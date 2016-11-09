@@ -1,4 +1,4 @@
-#include "InterruptMock.h"
+#include "TimerInterrupt.h"
 #include "Logger.h"
 
 #include <stdbool.h>
@@ -8,31 +8,42 @@
 #include <errno.h>
 #include <string.h>
 
-static bool _timer_initialized = false;
-
+//Private variables
 static timer_t _timer_handle;
+static bool _timer_initialized = false;
+static void (*_callback_handle)( void ) = NULL;
 
-static struct itimerspec _timer_time;
+static void linuxCallback( int sig )
+{
+  //ignore the int
+  if(_callback_handle == NULL)
+  {
+    return;
+  }
 
-static struct sigaction _signal_handler;
+  _callback_handle();
+}
 
-bool setupTimerInterrupt( void (*callback)(int) )
+bool linuxMock_setupTimerInterrupt( void (*callback)( void ) )
 {
   struct sigevent configure_event;
+  struct sigaction signal_handler;
   sigset_t mask;
 
   if( _timer_initialized )
   {
-    LOG_WARN("Timer interrupt was already initialized. Reinitializing...");
-    _timer_initialized = false;
+    LOG_WARN("Timer interrupt was already initialized.");
+    return false;
   }
 
 //Establish handler for timer interrupt
-  _signal_handler.sa_flags = SA_SIGINFO;
-  _signal_handler.sa_handler = callback;
-  sigemptyset(&_signal_handler.sa_mask);
+  _callback_handle = callback;
 
-  if( sigaction ( SIGRTMIN, &_signal_handler, NULL ) < 0 )
+  signal_handler.sa_flags = SA_SIGINFO;
+  signal_handler.sa_handler = linuxCallback;
+  sigemptyset(&signal_handler.sa_mask);
+
+  if( sigaction ( SIGRTMIN, &signal_handler, NULL ) < 0 )
   {
     LOG_ERROR("Setting up signal handler failed.");
     return false;
@@ -70,22 +81,30 @@ bool setupTimerInterrupt( void (*callback)(int) )
   return true;
 }
 
-bool startTimer( uint32_t interrupt_timer_ms )
+bool linuxMock_startTimer( uint32_t interrupt_timer_ms )
 {
+  struct itimerspec timer_time;
+  uint32_t seconds_portion = 0;
+
   if( !_timer_initialized )
   {
     LOG_ERROR("Timer interrupt cannot be started before being setup.");
     return false;
   }
 
-  //TODO: Fix this to take the parameter correctly
-  _timer_time.it_interval.tv_sec = 1;
-  _timer_time.it_interval.tv_nsec = 0;
+  while( interrupt_timer_ms >= 1000 )
+  {
+    seconds_portion++;
+    interrupt_timer_ms -= 1000;
+  }
+  
+  timer_time.it_interval.tv_sec = seconds_portion;
+  timer_time.it_interval.tv_nsec = interrupt_timer_ms * 1000000;
 
-  _timer_time.it_value.tv_sec = 1;
-  _timer_time.it_value.tv_nsec = 0;
+  timer_time.it_value.tv_sec = seconds_portion;
+  timer_time.it_value.tv_nsec = interrupt_timer_ms * 1000000;
 
-  if( timer_settime( _timer_handle, 0, &_timer_time, NULL ) < 0 )
+  if( timer_settime( _timer_handle, 0, &timer_time, NULL ) < 0 )
   {
     LOG_ERROR("Setting up the timer failed.");
     return false;
@@ -94,10 +113,15 @@ bool startTimer( uint32_t interrupt_timer_ms )
   return true;
 }
 
-bool disableTimerInterrupt( void )
+bool linuxMock_disableTimerInterrupt( void )
 {
-
   sigset_t mask;
+
+  if( !_timer_initialized )
+  {
+    LOG_ERROR("Timer interrupt cannot be disabled before being setup.");
+    return false;
+  }
 
   //Block the signal temporarily
   sigemptyset(&mask);
@@ -111,9 +135,15 @@ bool disableTimerInterrupt( void )
   return true;
 }
 
-bool enableTimerInterrupt( void )
+bool linuxMock_reEnableTimerInterrupt( void )
 {
   sigset_t mask;
+
+  if( !_timer_initialized )
+  {
+    LOG_ERROR("Timer interrupt cannot be re-enabled before being setup.");
+    return false;
+  }
 
 //Unblock the signal
   sigemptyset(&mask);

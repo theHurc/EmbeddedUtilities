@@ -11,8 +11,7 @@
 #define TASK_QUEUE_SIZE 10
 
 static bool _scheduler_started = false;
-static uint8_t _period_tasks_in_scheduler = 0;
-
+static uint8_t _periodic_tasks_in_scheduler = 0;
 
 typedef struct TaskData
 {
@@ -39,14 +38,14 @@ void schedulerAddPeriodicTask( void (*task)(void),
     return;
   }
 
-  if( _period_tasks_in_scheduler < NUMBER_OF_PERIODIC_TASKS )
+  if( _periodic_tasks_in_scheduler < NUMBER_OF_PERIODIC_TASKS )
   {
     LOG_INFO("Adding a task to scheduler");
-    _task_data[_period_tasks_in_scheduler]._task = task;
-    _task_data[_period_tasks_in_scheduler]._ticks_til_next_run = begin_time_ms;
-    _task_data[_period_tasks_in_scheduler]._task_period = repeat_time_ms;
+    _task_data[_periodic_tasks_in_scheduler]._task = task;
+    _task_data[_periodic_tasks_in_scheduler]._ticks_til_next_run = begin_time_ms;
+    _task_data[_periodic_tasks_in_scheduler]._task_period = repeat_time_ms;
 
-    _period_tasks_in_scheduler++;
+    _periodic_tasks_in_scheduler++;
   }
   else
   {
@@ -107,7 +106,7 @@ void schedulerScheduleTasks( void )
   }
 
 //TODO: figure out where the critical sections need to go
-  for(i = 0; i < _period_tasks_in_scheduler; i++)
+  for(i = 0; i < _periodic_tasks_in_scheduler; i++)
   {
     if( _task_data[i]._ticks_til_next_run > 0 )
     {

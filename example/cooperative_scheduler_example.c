@@ -1,5 +1,6 @@
 #include "CooperativeScheduler.h"
-#include "InterruptMock.h"
+#include "TimerInterrupt.h"
+#include "TimerInterruptFactory.h"
 #include "Logger.h"
 
 #include <stdio.h>
@@ -18,16 +19,18 @@ void function_two( void )
 void spoof_1ms_tick(int signal)
 {
   //TODO:Add a timer thingy here
-  schedulerScheduleTasks();
-  printf("I'm printing something, baby!\n");
+  //schedulerScheduleTasks();
+  printf("Something is happening");
 }
 
 int main()
 {
   initLogger();
 
+  TimerInterrupt timer;
+
   schedulerAddPeriodicTask(function_one, 0, 1000);
-  schedulerAddPeriodicTask(function_two, 0, 3500);
+  //schedulerAddPeriodicTask(function_two, 0, 3500);
 
   setupTimerInterrupt(spoof_1ms_tick);
 

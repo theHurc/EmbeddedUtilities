@@ -56,6 +56,7 @@ CircularBuffer BUFFER_NAME = \
 };
 
 //! Possible return values for the public functions below
+//TODO: Rename RESULT to be more specific
 typedef enum RESULT
 {
   SUCCESS = 0,

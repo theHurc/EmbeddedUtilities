@@ -24,14 +24,16 @@ gcc -o x_macro_example.out -Wall -Werror ./example/x_macro_example.c ./src/XMacr
 
 mv x_macro_example.out ./bin
 
-echo "Building Cooperative Scheduler example"
+#echo "Building Cooperative Scheduler example"
 
-gcc -o cooperative_scheduler_example.out -Wall -Werror ./example/cooperative_scheduler_example.c ./src/CooperativeScheduler.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c ./src/Logger.c ./src/InterruptMock.c -I ./include -lrt
+#gcc -o cooperative_scheduler_example.out -Wall -Werror ./example/cooperative_scheduler_example.c ./src/CooperativeScheduler.c ./src/ThreadSafeCircularBuffer.c ./src/CriticalSection.c ./src/Logger.c -I ./include -lrt
 
-mv cooperative_scheduler_example.out ./bin
+#mv cooperative_scheduler_example.out ./bin
 
-gcc -o interrupt_mock_example.out -Wall -Werror ./example/interrupt_mock_example.c ./src/InterruptMock.c ./src/Logger.c -I ./include -lrt
+echo "Building interrupt mock example"
 
-mv interrupt_mock_example.out ./bin
+gcc -o timer_interrupt_linux_mock_example.out -Wall -Werror ./example/timer_interrupt_linux_mock_example.c ./src/TimerInterruptLinuxMock.c ./src/TimerInterruptFactory.c ./src/Logger.c -I ./include -lrt
+
+mv timer_interrupt_linux_mock_example.out ./bin
 
 exit 0
