@@ -1,7 +1,7 @@
 #include "CriticalSection.h"
 //#include "InterruptMock.h"
 
-void enterCriticalSection(void)
+void enterCriticalSection1(void)
 {
 //  disableTimerInterrupt();
   return;
