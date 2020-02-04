@@ -21,3 +21,6 @@ void logIt( uint8_t level, char *log )
   printf("%d: %s\n", level, log);
 }
 
+
+//Just a comment
+
